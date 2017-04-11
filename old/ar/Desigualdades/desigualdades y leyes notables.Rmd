@@ -1,0 +1,226 @@
+---
+title: "Leyes y desigualdades notables"
+author: "Alexander A. Ramírez M. (alexanderramirez.me)"
+date: "26 de Agosto, 2016"
+output:
+  pdf_document:
+    fig_caption: yes
+    keep_tex: yes
+    number_sections: yes
+  html_document:
+    keep_md: yes
+  md_document:
+    variant: markdown_github
+  github_document: null
+  word_document:
+    keep_md: yes
+lang: es
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+------
+
+# Frecuencia relativa
+
+La frecuencia relativa es la cantidad de veces que un evento $E$ ocurre a partir de $n$ resultados mutuamente excluyentes (no ocurren resultados distintos en cada intento del experimento) de un experimento. La denotamos como:
+
+$$
+P(E)=\frac{1}{n}\sum_{i=1}^{n}\mathbb{1}_{E}(x_i)
+$$
+
+```{r}
+relative_freq<-function(n,vars) {
+  result<-c()
+  heads<-0
+  for (i in 1:n) {
+    trial<-rbinom(vars,1,.5)
+    if (trial==0) {
+      heads<-heads+1
+    }
+    result<-append(result,heads/i)
+  }
+  return(result)
+}
+
+n<-10000
+vars<-1
+result<-relative_freq(n,vars)
+result[n]
+plot(result)
+mean(result)
+sd(result)
+```
+
+```{r}
+vars<-1
+for (n in c(10,50,100,500,1000,5000,10000)) {
+  result<-relative_freq(n,vars) 
+  print(n)
+  print(result[n])
+  #write("n->",n," mean->", result[n])
+  plot(result)
+}
+```
+
+-----
+
+# Suma de variables aleatorias Bernoulli
+
+
+
+# Media de variables aleatorias Bernoulli
+
+```{r}
+meanof_bernoulli<-function(n,vars) {
+  result<-c()
+  for (i in 1:n) {
+    result<-append(result,mean(rbinom(vars,1,.5))*sqrt(n))
+  }
+  return(result)
+}
+
+n<-10000
+vars<-20
+result<-meanof_bernoulli(n,vars)
+hist(result)
+mean(result)
+sd(result)
+```
+
+El promedio de $n$ medias:
+
+```{r}
+mean(result)
+sd(result)
+```
+
+------
+
+# Desigualdad de Markov
+
+Sea $X$ una variable aleatoria no negativa y $a>0$,
+
+$$
+P(X \geq a) \leq \frac{E(X)}{a}
+$$
+
+o también
+
+$$
+P(\mid X - \mu \mid \geq k\sigma) \leq \frac{1}{k^2}
+$$
+
+
+# Desigualdad de Tchebysheff
+
+Sea $X$ una variable aleatoria con media $\mu$ y varianza $\sigma^2<\infty$. Entonces, para $k>0$,
+
+$$
+P(\mid X - \mu \mid < k\sigma) \geq 1 - \frac{1}{k^2}
+$$
+
+o también
+
+$$
+P(\mid X - \mu \mid \geq k\sigma) \leq \frac{1}{k^2}
+$$
+
+Otra notación es la siguiente:
+
+$$
+P(\mid X - E(X) \mid \geq k) \leq \frac{\sigma^2}{k^2}
+$$
+
+-----
+
+# Ley de los grandes números
+
+## Ley débil
+
+Sean $X_1,X_2,X_3, \hdots$ una sucesión infinita de variables aleatorias independientes y distribuidas idénticamente con $E(Y_i)=\mu$ y $Var(Y_i)=\sigma^2<\infty$, entonces el promedio
+
+$$
+\bar{X}_n=\frac{1}{n}\sum\limits_{i=1}^{n}X_i
+$$
+
+converge en probabilidad a $\mu$.
+
+Es decir, sea $\epsilon>0$ entonces
+
+$$
+\lim_{n \to \infty} P(\mid \bar{X}_n - \mu\mid<\epsilon)=1
+$$
+
+Donde podemos decir que
+
+$$
+P(\mid \bar{X}_n - \mu\mid<\epsilon) = \frac{1}{n}\sum_{i=1}^{n}\mathbb{1}_{(-\epsilon+\mu,\epsilon+\mu)}(\bar{X}_n)
+$$
+
+```{r}
+weak_law<-function(n,vars,epsilon) {
+  result<-c()
+  heads<-0
+  f<-0
+  for (i in 1:n) {
+    trial<-rbinom(vars,1,.5)
+    if (trial==0) {
+      heads<-heads+1
+    }
+    if (abs((heads/i)-0.5)<epsilon) {
+      f<-f+1
+    }
+    result<-append(result,f/i)
+  }
+  return(result)
+}
+
+n<-10000
+vars<-1
+epsilon<-0.01
+result<-weak_law(n,vars,epsilon)
+result[n]
+plot(result)
+mean(result)
+sd(result)
+```
+
+```{r}
+vars<-1
+epsilon<-0.05
+for (n in c(10,50,100,500,1000,5000,10000)) {
+  result<-weak_law(n,vars,0.05) 
+  print(n)
+  print(result[n])
+  #write("n->",n," mean->", result[n])
+  plot(result)
+}
+```
+
+## Ley fuerte
+
+
+
+
+
+
+
+
+
+# Teorema del límite central
+
+Sean $Y_1,Y_2, ..., Y_n$ variables aleatorias independientes y distribuidas idénticamente con $E(Y_i)=\mu$ y $Var(Y_i)=\sigma^2<\infty$. Definamos
+
+$$
+U_n = \frac{\sum_{}{}Y_i-n\mu}{\sigma\sqrt{n}}=\frac{\bar{Y}-\mu}{\sigma/\sqrt{n}},\text{  } \bar{Y}=\frac{1}{n}\sum\limits_{i=1}^{n}Y_i
+$$
+
+Entonces la función de distribución de $U_n$ converge hacia la función de distribución normal estándar cuando $n\to\infty$. Esto es,
+
+$$
+\lim_{n\to\infty}P(U_n\leq u)=\int_{-\infty}^{u}\frac{1}{\sqrt{2\pi}}e^{-\frac{t^2}{2}}dt, \text{ para toda u}
+$$
+

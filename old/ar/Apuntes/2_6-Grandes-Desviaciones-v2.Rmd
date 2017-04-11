@@ -1,0 +1,738 @@
+---
+title: "Grandes Desviaciones"
+author: "Alexander A. Ramírez M. (alexanderramirez.me)"
+date: "09/01/2017"
+output:
+  pdf_document:
+    fig_caption: yes
+    includes:
+      in_header: styles.sty
+    keep_tex: yes
+    number_sections: no
+    toc: yes
+    toc_depth: 4
+  html_document:
+    keep_md: yes
+    toc: yes
+    toc_depth: 4
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+  md_document:
+    toc: yes
+    toc_depth: 4
+    variant: markdown_github
+  github_document:
+    toc: yes
+    toc_depth: 4
+  word_document:
+    keep_md: yes
+    toc: yes
+    toc_depth: 4
+fontsize: 12pt
+---
+
+----
+
+**Agradecimiento**
+
+> Profesor Muchas gracias por el esfuerzo y el empeño en el curso. Sigo interesado en trabajar con Ud. en otros cursos. A pesar de las circunstancias, Ud. es un ejemplo de amor por su oficio y profesionalismo. Se que a Ud. no le interesan los agradecimientos sino que realmente trabajemos en la materia. Espero esta sea una pequeña muestra. Mis respetos. Un abrazo. *AARM*
+
+----
+
+# 2.6 Grandes Desviaciones
+
+Sean $X_1,X_2,\dots$ variables aleatorias independientes e idénticamente distribuidas (i.i.d) y sea $S_n=X_1+X_2+\dots+X_n=\sum_{i=1}^n X_i$. En esta sección vamos a investigar la tasa (la velocidad) a la cual $P(S_n > n a)\rightarrow 0$ para $a>\mu=\mathbb{E}X_i$. Finalmente concluiremos que si la **función generadora de momento** $\varphi(\theta)=\mathbb{E}(e^{\theta X_i}) < \infty$ para algún $\theta>0$, $P(S_n> n a)\rightarrow 0$ a una velocidad exponencial e identificaremos
+
+$$
+\displaystyle \gamma(a)=\lim_{n \to \infty}\frac{1}{n}\log P(S_n\ge n a)
+$$
+Nuestro primer paso será demostrar que el límite existe. Esto está basado en la observación que será de utilidad en varias oportunidades más adelante. Sea $\pi_n=P(S_n\ge n a)$.
+
+$$
+\pi_{m+n}\ge P(S_m\ge m a, S_{m+n}-S_m\ge n a)=\pi_m \pi_n
+$$
+dado que $S_m$ y $S_{m+n}-S_m$ son independientes. 
+
+-----
+
+**Detalles:**
+
+Sea $\pi_n=P(Sn\ge na)$ definido para cada $n$. Como la suma y resta de variables aleatorias independientes, es una variable aleatoria independiente, para cada $m$, $n$ tenemos que las variables aleatorias $S_m$ y $S_{m+n}-S_m$ son independientes.
+
+Por otra parte el evento $S_{m+n}\ge(m+n)a$ contiene $S_m\ge ma$ y $S_{m+n}-S_m\ge na$ entonces como la probabilidad es una función monótona y por independencia de las variables aleatorias tenemos
+$$
+\begin{array}{rl}
+\pi_{m+n}= P(S_{m+n}\ge (m+n)a)\ge& P(S_m\ge ma,S_{m+n}-S_m\ge na) \\
+\ge& P(S_m\ge ma)P(S_{n+m}-S_m\ge na) \\
+\ge& \pi_m\pi_n
+\end{array}
+$$
+
+-----
+
+Si dejamos a $\gamma_n=\log\pi_n$ transformamos el producto en sumas.
+
+-----
+
+**Detalles:**
+
+Sea $\gamma_n=\log\pi_n$, como $\pi_{m+n}\ge\pi_m \pi_n$ como ya vimos. Entonces
+$$
+\gamma_{m+n}=\log\pi_{m+n}\ge\log \pi_m\pi_n=\log\pi_m+\log\pi_n=\gamma_{m}+\gamma_{n}
+$$
+entonces $\gamma_{n}$ transforma el producto en sumas.
+
+-----
+
+## Lemma 2.6.1
+  
+> Si $\gamma_{m+n}\ge \gamma_m+\gamma_n$ entonces así como $n\to\infty$, $\frac{\gamma_n}{n}\to sup_m \frac{\gamma_m}{m}$.
+
+*Prueba*. Claramente, $\limsup\gamma_n/n\le \sup\gamma_m/m$. Para completar la demostración, es suficiente probar que para cualquier $m$, $\liminf\gamma_n/n\ge\gamma_m/m$. Escribiendo $n=km+\ell$ con $0\le\ell<m$ y haciendo uso de la hipótesis varias veces nos dá $\gamma_n\ge k\gamma_m+\gamma_\ell$. Dividiendo por $n=km+\ell$ obtenemos
+$$
+\frac{\gamma_n}{n}\ge\Bigg(\frac{km}{km+\ell}\Bigg)\frac{\gamma_m}{m}+\frac{\gamma_\ell}{n}
+$$
+Si hacemos $n\to\infty$ y recordando que $n=km+\ell$ con $0\le\ell<m$ obtenemos el resultado deseado.$\Box$
+
+-----
+
+**Detalles:**
+
+Desarrollemos la demostración paso a paso. Se desea demostrar que si  $\gamma_{m+n}\ge \gamma_m+\gamma_n$ entonces $\displaystyle \lim_{n\to\infty}\frac{\gamma_n}{n}=\sup_{m}\frac{\gamma_{m}}{m}$. Por definición de $\limsup$ e $\inf$
+$$
+\limsup_{n\to\infty}\frac{\gamma_{n}}{n}=\adjustlimits \inf_{n\ge 1}\sup_{m\ge n}\frac{\gamma_m}{m}\le \sup_{m\ge 1} \frac{\gamma_{m}}{m}
+$$
+Para completar la demostración, es suficiente probar que para cualquier $m$, $\liminf\frac{\gamma_n}{n}\ge\frac{\gamma_m}{m}$. Tenemos que
+$$
+\begin{array}{rl}
+\displaystyle \frac{\gamma_m}{m}\le &\displaystyle\liminf_{n\to\infty}\frac{\gamma_n}{n}\\
+\le& \displaystyle \limsup_{n\to\infty} \frac{\gamma_n}{n}\\
+\le& \displaystyle \sup_{m} \frac{\gamma_m}{m}\\
+\end{array}
+$$
+Entonces para cada $m$, $\displaystyle \liminf_{n\to\infty}\frac{\gamma_n}{n}$ es una cota superior para $\frac{\gamma_m}{m}$.
+Por definición de supremo es $\displaystyle \sup_{m}\frac{\gamma_m}{m}\le \displaystyle \liminf_{n\to\infty}\frac{\gamma_n}{n}$, entonces
+$$
+\frac{\gamma_m}{m}\le\sup_{m}\frac{\gamma_m}{m}\le\liminf_{n\to\infty}\frac{\gamma_n}{n}\le\limsup_{n\to\infty}\frac{\gamma_n}{n}
+$$
+así
+$$
+\liminf_{n\to\infty}\frac{\gamma_n}{n}=\limsup_{n\to\infty}\frac{\gamma_n}{n}=\frac{\gamma_m}{m}
+$$
+se sigue que el límite $\displaystyle \lim_{n\to\infty}\frac{\gamma_n}{n}$ existe y es igual a $\displaystyle \lim_{n\to\infty}\frac{\gamma_n}{n}=\frac{\gamma_m}{m}$.
+
+Ahora vamos a ver que $\displaystyle \liminf_{n\to\infty}\frac{\gamma_n}{n}\ge\frac{\gamma_m}{m}$.
+
+Escribiendo $n=km+\ell$ con $0\le\ell<m$ por hipótesis
+$$
+\gamma_n=\gamma_{km+\ell}\ge\gamma_{km}+\gamma_{\ell}
+$$
+tenemos además que
+$$
+\gamma_{km}=\gamma_{m+(k-1)m}\ge\gamma_m+\gamma_{(k-1)m}\ge\gamma_m+\gamma_m+\gamma_{(k-2)m}\ge\dots\ge(k-1)\gamma_m+\gamma_m=k\ \gamma_m
+$$
+sustituyendo queda
+$$
+\gamma_n=\gamma_{km+\ell}\ge k\ \gamma_{m}+\gamma_{\ell}
+$$
+
+y haciendo uso de la hipótesis varias veces nos dá $\gamma_n\ge k\ \gamma_m+\gamma_\ell$. Dividiendo por $n=km+\ell$ obtenemos
+$$
+\frac{\gamma_n}{n}=\frac{k\ \gamma_m+\gamma_\ell}{km+\ell}\ge\Bigg(\frac{km}{km+\ell}\Bigg)\frac{\gamma_m}{m}+\frac{\gamma_\ell}{n}
+$$
+Si hacemos $n\to\infty$ y recordando que $n=km+\ell$ con $0\le\ell<m$ obtenemos el resultado deseado.
+$$
+\begin{array}{rl}
+\displaystyle \liminf_{n\to\infty}\frac{\gamma_n}{n}\ge&\displaystyle \liminf_{n\to\infty}\Bigg(\frac{km}{km+\ell}\Bigg)\frac{\gamma_m}{m}+\liminf_{n\to\infty}\frac{\gamma_\ell}{n}\\  \vspace{3mm}
+=&\displaystyle \liminf_{n\to\infty}\Bigg(\frac{n-\ell}{n}\Bigg)\frac{\gamma_m}{m}+\liminf_{n\to\infty}\frac{\gamma_\ell}{n}\\ \vspace{3mm}
+=&\displaystyle\liminf_{n\to\infty}\frac{\gamma_\ell}{n}\\ \vspace{3mm}
+=&\displaystyle\frac{\gamma_m}{m}
+\end{array}
+$$
+entonces $\displaystyle \liminf_{n\to\infty}\frac{\gamma_n}{n}\ge\displaystyle\frac{\gamma_m}{m}$, que es lo que se quería demostrar. $\Box$
+
+-----
+
+El Lemma 2.6.1 implica que $\displaystyle \lim_{n\to\infty}\frac{1}{n}\log P(S_n\ge n a)=\gamma(a)\le 0$ existe. Se sigue de la fórmula para el límite que
+$$
+\tag{2.6.1}
+P(S_n \ge n a) \le e^{n\ \gamma(a)}
+$$
+Las últimas dos observaciones nos ofrecen información muy útil sobre $\gamma(a)$.
+
+-----
+
+**Detalles:**
+
+El Lemma 2.6.1 implica que $\displaystyle \lim_{n\to\infty}\frac{1}{n}\log P(S_n\ge n a)=\gamma(a)\le 0$ existe. 
+$$
+\displaystyle \gamma(a)=\lim_{n\to\infty}\frac{1}{n}\log P(S_n\ge n a)=\lim_{n\to\infty}\frac{\gamma_n}{n}=\sup_{m}\frac{1}{m}\log P(S_m\ge ma)
+$$
+Como $0\le \pi_m=P(S_m\ge ma)\le 1$ entonces $\log \pi_m=\log P(S_m\ge ma)\le 0$ así la sucesión $\bigg\{\displaystyle \frac{\gamma_m}{m}\bigg\}_{m\ge 1}$ es acotada y su supremo es $\displaystyle \sup_m\frac{\gamma_m}{m}\le 0$, queda que para $m$
+$$
+\begin{array}{rl}
+\displaystyle \frac{\gamma_m}{m} \le & \sup_m\frac{\gamma_m}{m}=\gamma(a) \\
+\gamma_m \le & m\ \gamma(a) \\
+\displaystyle \log \pi_m\le & m\ \gamma(a) \\
+\displaystyle \pi_m\le & \exp (m\ \gamma(a) )\\ \vspace{3mm}
+\displaystyle P(S_m\ge ma) \le& e^{m\ \gamma(a)}
+\end{array}
+$$
+Se sigue de la fórmula para el límite que $\gamma(a)\le 0$ y
+$$
+\tag{2.6.1}
+P(S_m \ge m a) \le e^{m\ \gamma(a)}
+$$
+Las últimas dos observaciones nos ofrecen información muy útil sobre $\gamma(a)$.
+
+-----
+
+## Ejercicio 2.6.1.
+
+Las proposiciones siguientes son equivalentes: (a) $\gamma(a)=-\infty$, (b) $P(X_1\ge a)=0$ y (c) $P(S_n\ge n a)=0$ para todo $n$.
+
+------
+
+>  Podemos ver que si $\gamma(a)=\displaystyle\sup_m\frac{\gamma_m}{m}=-\infty$ entonces $\displaystyle\frac{\gamma_m}{m}=-\infty$ y Tomando $n=1$ tenemos que $\gamma_1=\log P(X_1\ge a)=-\infty$ entonces $P(X_1\ge a)=0$.
+>
+> Si $S_n\ge na$ entonces $X_m\ge a$ para algún $m\le n$ así si (b) $P(X_1\ge a)=0$ entonces (c) $P(S_n\ge n a)=0$.
+>
+> Finalmente si (c) $\pi_n=P(S_n\ge n a)=0$ para todo $n$ entonces $\displaystyle\frac{\gamma_n}{n}=-\infty$, se sigue que (a) $\gamma(a)=\displaystyle\sup_m\frac{\gamma_n}{n}=-\infty$.
+
+------
+
+## Ejercicio 2.6.2.
+
+Use la definición para concluir que si $\lambda \in [0,1]$ y $\lambda\in \mathbb{Q}$ es racional entonces $\gamma(\lambda a+(1-\lambda)b)\ge \lambda\gamma(a)+(1-\lambda)\gamma(b)$. Use la monotonía para concluir que la última relación se cumple para todo $\lambda \in [0,1]$, así $\gamma$ es cóncava y por lo tanto Lipschitz contínua en subconjuntos compactos de $\gamma(a)>-\infty$.
+
+-----
+
+> Sea $a\le \lambda a+(1-\lambda)b\le b$. Vamos a tomar $\frac{1}{n}\log$ en ambos lados y luego hacemos $n\to\infty$. Recordemos que $\gamma_{n(\lambda+(1-\lambda))}\ge \gamma_{\lambda n}+\gamma_{(1-\lambda)n}$ y $\gamma_{\lambda n}=\lambda \gamma_n$
+> $$
+> \begin{array}{rl}
+> \log P(S_n\ge n\{\lambda a + (1-\lambda)b\})\ge & \log P(S_{n\lambda}\ge n\lambda  a)+ \log P(S_{n(1-\lambda)}\ge n(1-\lambda)b) \\ \vspace{1mm}
+> \frac{1}{n}\log P(S_n\ge n\{\lambda a + (1-\lambda)b\})\ge & \frac{1}{n}\log P(S_{n\lambda}\ge n\lambda  a)+ \frac{1}{n}\log P(S_{n(1-\lambda)}\ge n(1-\lambda)b) \\ \vspace{1mm}
+> \frac{1}{n}\log P(S_n\ge n\{\lambda a + (1-\lambda)b\})\ge & \frac{\lambda}{n}\log P(S_{n}\ge na)+ \frac{1-\lambda}{n}\log P(S_{n}\ge nb) \\ \vspace{1mm}
+> \displaystyle \lim_{n\to\infty}\frac{1}{n}\log P(S_n\ge n\{\lambda a + (1-\lambda)b\})\ge & \displaystyle\lim_{n\to\infty} \frac{\lambda}{n}\log P(S_{n}\ge na)+ \displaystyle\lim_{n\to\infty}\frac{1-\lambda}{n}\log P(S_{n}\ge nb)\\ \vspace{1mm}
+> \displaystyle \lim_{n\to\infty}\frac{1}{n}\log P(S_n\ge n\{\lambda a + (1-\lambda)b\})\ge & \displaystyle \lambda \lim_{n\to\infty} \frac{1}{n}\log P(S_{n}\ge na)+ (1-\lambda)\displaystyle\lim_{n\to\infty}\frac{1}{n}\log P(S_{n}\ge nb)\\ \vspace{1mm}
+> \gamma(\lambda a + (1-\lambda)b)\ge & \lambda\gamma(a)+(1-\lambda)\gamma(b)
+> \end{array}
+> $$
+>
+> Sea ${q_n}_n$ una sucesión tal que $q_n\uparrow\lambda$ donde $q_n$ son irracionales y usando la monotonía se extiende el resultado a los irracionales $\lambda$.
+>
+> Para una función cóncava $f$, haciendo crecer $a$ o $h>0$ decrece $(f(a+h)-f(a))/h$. De esta observación se sigue la continuidad de Lipschitz.
+
+-----
+
+Las conclusiones anteriores son válidas para cualquier distribución. Para el resto de la sección vamos a suponer:
+
+**(H1)** $\varphi(\theta) =\mathbb{E}(e^{\theta X_i})<\infty$ para algún $\theta>0$
+
+Sea $\theta_+=\sup\{\theta: \varphi(\theta)<\infty\}$, $\theta_-=\inf\{\theta: \varphi(\theta)<\infty\}$ y note que $\varphi(\theta)<\infty$ para $\theta\in(\theta_-,\theta_+)$. (H1) implica que $\mathbb{E}X_i^+<\infty$ y $\mu=\mathbb{E}X^+-\mathbb{E}X^- \in (-\infty,\infty)$. 
+
+-----
+
+**Detalle:**
+
+Recordemos que si $f\ge 0$ es una función, $A$ un conjunto medible, $i_A=\inf\{f(y): y\in A\}$, por Chebyshev tenemos
+$$
+i_A P(X\in A)\le\mathbb{E}f(X)
+$$
+Sea $f(x)=e^{\theta x}$, $A=[na,\infty)$ y $X=S_n$ entonces $i_A=\inf\{e^{\theta y}:y\ge na\}=e^{\theta na}$ y por el Teorema 2.1.9 y el Teorema 3.3.2 del durrett y considerando que $\mathbb{E}e^{\theta X_1}<\infty$
+$$
+\begin{array}{rl}
+e^{\theta na}P(S_n\ge na)\le&\mathbb{E}e^{\theta S_n}\\
+=&\mathbb{E}e^{\theta (X_1+X_2+\dots+X_n)}\\
+=&\mathbb{E}e^{\theta X_1+\theta X_2+\dots+\theta X_n}\\
+=&\mathbb{E}e^{\theta X_1}e^{\theta X_2}\dots e^{\theta X_n}\\
+=&\mathbb{E}e^{\theta X_1}\mathbb{E}e^{\theta X_2}\dots \mathbb{E}e^{\theta X_n}\\
+=&\varphi(\theta)^n
+\end{array}
+$$
+
+-----
+
+la desigualdad de Chebyshev implica que
+$$
+e^{\theta n a}P(S_n\ge na)\le\mathbb{E}(e^{\theta S_n})=\varphi(\theta)^n
+$$
+
+-----
+
+**Detalle:**
+
+$$
+\begin{array}{rl}
+e^{\theta n a}P(S_n\ge na)\le&\mathbb{E}(e^{\theta S_n})=\varphi(\theta)^n\\
+P(S_n\ge na)\le&e^{-\theta n a}\varphi(\theta)^n\\
+\end{array}
+$$
+
+-----
+
+si dejamos $\kappa(\theta)=\log\varphi(\theta)$
+$$
+\tag{2.6.2}
+P(S_n\ge na)\le \displaystyle e^{-n\{a\theta-\kappa(\theta)\}}
+$$
+Nuestro primer objetivo es mostrar:
+
+## Lemma 2.6.2
+
+> Si $a>\mu$ y $\theta>0$, entonces $a\theta-\kappa(\theta)>0$
+
+*Prueba.* $\kappa(0)=\log\varphi(0)=\log \mathbb{E}(e^{0 X_i})=\log \mathbb{E}(e^{0})=\log \mathbb{E}(1)=\log(1)=0$, entonces es suficiente demostrar el lema que (i) $\kappa$ es contínua en $0$, (ii) diferenciable en $(0,\theta_+)$ y (iii) $\kappa'(\theta)\to\mu$ así como $\theta\to 0$. Para luego motrar que
+$$
+\displaystyle a\theta-\kappa(\theta)=\int_0^\theta a-\kappa'(x)\ dx > 0
+$$
+para $\theta$ pequeño.
+
+
+
+Sea $F(x)=P(X_i\le x)$. Para probar (i) notamos que si $0<\theta<\theta_0<\theta_-$
+$$
+\tag{*}
+\displaystyle e^{\theta\ x}\le 1 + e^{\theta_0\ x}
+$$
+así que por el teorema de convergencia dominada, 
+
+-----
+
+**Detalles:**
+
+Si $Y_n\to Y$ cási seguramente, $|Y_n|\le Z$ para todo $n$ y $\mathbb{E}Z<\infty$ entonces $\mathbb{E}Y_n\to\mathbb{E}Y$, si definimos $\{\theta_n\}_n\subseteq[0,\theta_0]$ y $\theta_n\to 0$ así como $n\to\infty$ para $n\ge 1$ definamos $Y_n=e^{\theta_n X_i}$
+$$
+\lim_{n\to\infty} Y_n= \lim_{n\to\infty}e^{\theta_n X_i}=e^0=1
+$$
+como $\theta_n\le\theta_0$
+$$
+|Y_n|=|e^{\theta_n X_i}|=e^{\theta_n X_i}\le e^{\theta_0 X_i}=Z
+$$
+es decir está acotada y $\mathbb{E}Z<\infty$ ya que por definición de $\theta_-$ y $\theta_+$, $\theta_0\in(\theta_-,\theta_+)$
+
+-----
+
+queda que así como $\theta_n\to 0$
+$$
+\mathbb{E} e^{\theta_n\ x}=\displaystyle \int e^{\theta_n x}dF\to\int 1 dF=1
+$$
+
+-----
+
+**Detalles:**
+
+Como $\mathbb{E}Y_n \to 1$ así como $n\to\infty$, entonces para cada $n$, $\varphi(\theta_n)=\mathbb{E} Y_n$ así $\varphi(\theta_n)\to 1$ así como $n\to\infty$, queda
+$$
+\begin{array}{rl}
+\displaystyle \lim_{\theta\to 0} \kappa(\theta)=& \displaystyle \lim_{\theta\to 0}\log\varphi(\theta)\\
+=&\displaystyle \lim_{n\to\infty}\log\varphi(\theta_n)\\
+=&\displaystyle \log(\lim_{n\to\infty}\varphi(\theta_n))\\
+=&\log(1)\\
+=&0
+\end{array}
+$$
+
+-----
+
+entonces $\kappa$ es contínua en $0$.
+
+Para probar (ii) notamos que si $\mid h\mid<h_0$ entonces
+$$
+\displaystyle |e^{hx}-1|=\Bigg | \int_0^{hx} e^y dy\Bigg |\le | hx| e^{h_0x}
+$$
+así una aplicación del teorema de convergencia dominada muestra que
+$$
+\begin{array}{cl}
+\varphi'(\theta)&=\displaystyle\lim_{h\to 0}\frac{\varphi(\theta+h)-\varphi(\theta)}{h}\\
+&=\displaystyle\lim_{h\to 0}\int\frac{e^{hx}-1}{h}e^{\theta x}dF(x)\\
+&=\displaystyle\int xe^{\theta x}dF(x) \text{    para }\theta\in(0,\theta_+)
+\end{array}
+$$
+De la última ecuación, se sigue que $\kappa(\theta)=\log\varphi(\theta)$ tiene $\kappa'(\theta)=\varphi'(\theta)/\varphi(\theta)$. Usando (*) y el teorema de convergencia dominada nos da (iii) y la prueba está completa.$\Box$
+
+-----
+
+Habiendo encontrado una cota superior para $P(S_n\ge na)$, es natural optimizarla encontrando el máximo de $\theta a-\kappa(\theta)$:
+$$
+\displaystyle\frac{d}{d\theta}\{\theta a-\log\varphi(\theta)\}=a-\frac{\varphi'(\theta)}{\varphi(\theta)}=0
+$$
+así que (suponiendo que *things are nice*) el máximo ocurre cuando, $a=\varphi'(\theta)/\varphi(\theta)$. Para cambiar la proposición en el paréntesis en una hipótesis matemática empezamos por definir
+$$
+F_\theta(x)=\frac{1}{\varphi(\theta)}\int_{-\infty}^{x}e^{\theta y}dF(y)
+$$
+cuando $\varphi(\theta)<\infty$. Se sigue de la pruega del Lemma 2.6.2 que si $\theta\in(\theta_-,\theta_+)$, $F_\theta$ es una función de distribución con media
+$$
+\int x\text{ }dF_\theta(x)=\frac{1}{\varphi(\theta)}\int_{-\infty}^{\infty}xe^{\theta x}dF(x)=\frac{\varphi'(\theta)}{\varphi(\theta)}
+$$
+Repitiendo la prueba en el Lemma 2.6.2, es fácil ver que si $\theta\in(\theta_-,\theta_+)$ entonces
+$$
+\varphi''(\theta)=\int_{-\infty}^{\infty}x^2e^{\theta x}dF(x)
+$$
+Entonces tenemos
+$$
+\frac{d}{d\theta}\frac{\varphi'(\theta)}{\varphi(\theta)}=\frac{\varphi''(\theta)}{\varphi(\theta)}-\Bigg(\frac{\varphi'(\theta)}{\varphi(\theta)}\Bigg)^2=\int x^2 dF_\theta(x) - \Bigg(\int xdF_\theta(x)\Bigg)^2\ge 0
+$$
+dado que la última expresión es la variancia de $F_\theta$. Si suponemos que 
+
+**(H2)** la función de distribución $F$ no es un punto de masa en $\mu$
+
+entonces $\varphi'(\theta)/\varphi(\theta)$ es estríctamente creciente y $a\theta - \log\varphi(\theta)$ es cóncava. Como tenemos $\varphi'(0)/\varphi(0)=\mu$, esto muestra que para cada $a>\mu$ hay a lo sumo un $\theta_a\ge 0$ que resuelve $a=\varphi'(\theta_a)/\varphi(\theta_a)$ por inyectividad, y este valor de $\theta$ maximiza $a\theta-\log\varphi(\theta)$. Antes de discutir la existencia de $\theta_a$ consideremos algunos ejemplos.
+
+## Ejemplo 2.6.1. Distribución Normal.
+
+$$
+\int e^{\theta x}(2\pi)^{-\frac{1}{2}}e^{-\frac{x^2}{2}}dx=e^{\frac{\theta^2}{2}}\int \frac{1}{\sqrt{2\pi}}e^{-\frac{(x-\theta)^2}{2}}dx
+$$
+El integrando en la última integral (a la derecha) es la función de densidad de una distribución normal con media $\theta$ y variancia $1$, tal que $\varphi(\theta)=e^{\frac{\theta^2}{2}}$, $\theta \in(-\infty,\infty)$. En este caso, $\varphi'(\theta)/\varphi(\theta)=\theta$ y
+$$
+F_\theta(x)=e^{-\frac{\theta^2}{2}}\int_{-\infty}^{x}e^{\theta x}\frac{1}{\sqrt{2\pi}}e^{-\frac{y^2}{2}}dy
+$$
+es una disribución normal con media $\theta$ y variancia $1$.
+
+## Ejemplo 2.6.2. Distribución Exponencial con parámetro $\lambda$.
+
+Si $\theta<\lambda$
+$$
+\int_{0}^{\infty}e^{\theta x}\lambda e^{-\lambda x}dx=\frac{\lambda}{\lambda-\theta}
+$$
+$$
+\frac{\varphi'(\theta)}{\varphi(\theta)}=\frac{1}{\lambda-\theta}
+$$
+$$
+F_\theta(x)=\frac{\lambda}{\lambda-\theta}\int_0^x e^{\theta x}\lambda e^{-\lambda y}dy
+$$
+es una distribución exponencial con parámetro $\lambda-\theta$ y por lo tanto con media $1/(\lambda-\theta)$.
+
+## Ejemplo 2.6.3. Lanzamientos de monedas
+
+Sea $P(X_i=1)=P(X_i=-1)=1/2$
+$$
+\varphi(\theta)=\frac{(e^\theta+e^{-\theta})}{2}
+$$
+$$
+\frac{\varphi'(\theta)}{\varphi(\theta)}=\frac{(e^\theta-e^{-\theta})}{(e^\theta+e^{-\theta})}
+$$
+$$
+\frac{F_\theta(\{x\})}{F(\{x\})}=\frac{e^{\theta x}}{\varphi(\theta)}
+$$
+entonces
+$$
+F_\theta(\{1\})=\frac{e^\theta}{e^\theta+e^{-\theta}}
+$$
+y
+$$
+F_\theta(\{-1\})=\frac{e^{-\theta}}{e^\theta+e^{-\theta}}
+$$
+
+## Ejemplo 2.6.4. Exponencial "pervertida"
+
+Sea $g(x)=Cx^{-3}e^{-x}$ para $x\ge 1$, $g(x)=0$ en otro caso y escoge $C$ tal que $g$ es una función de densidad de probabilidad. En este caso,
+$$
+\varphi(\theta)=\displaystyle\int e^{\theta x}g(x)dx<\infty
+$$
+sí y sólo si $\theta\le 1$ y cuando $\theta\le 1$, tenemos
+$$
+\frac{\varphi'(\theta)}{\varphi(\theta)}\le\frac{\varphi'(1)}{\varphi(1)}=\frac{\displaystyle\int_1^\infty Cx^{-2}dx}{\displaystyle\int_1^\infty Cx^{-3}dx}=2
+$$
+Recordemos $\theta_+=\sup\{\theta:\varphi(\theta)<\infty\}$. En los Ejemplos 2.6.1 y 2.6.2, tenemos $\varphi'(\theta)/\varphi(\theta)\uparrow\infty$ así como $\theta\uparrow\theta_+$ así que podemos resolver $a=\varphi'(\theta)/\varphi(\theta)$ para todo $a>\mu$. En el Ejemplo 2.6.3, $\varphi'(\theta)/\varphi(\theta)\uparrow 1$ como $\theta\to\infty$ pero no podemos esperar mucho más dado que $F$ y por lo tanto $F_\theta$ es soportada en $\{-1,1\}$.
+
+## Ejercicio 2.6.3.
+
+Sea $x_0=\sup\{x: F(x)<1\}$. Muestre que si $x_0<\infty$ entonces $\varphi(\theta)<\infty$ para todo $\theta>0$ y $\varphi'(\theta)/\varphi(\theta)\to x_0$ como $\theta\uparrow\infty$.
+
+-----
+
+> Dado que $P(X\le x_0)=1$, $\mathbb{E}e^{\theta X}<\infty$ para todo $\theta>0$. Como $F_\theta$ está concentrada en $(-\infty,x_0]$ su media $\mu_0=\varphi'(\theta)/\varphi(\theta)\le x_0$. Por otra parte si $\delta>0$, entonces $P(X\ge x_0-\delta)=c_\delta>0$, $\mathbb{E}e^{\theta X}\ge c_\delta e^{\theta(x_0-\delta)}$, entonces
+> $$
+> F_\theta(x_0-2\delta)=\displaystyle \frac{1}{\varphi(\theta)}\displaystyle \int_{-\infty}^{x_0-2\delta} e^{\theta x}dF(x)\le \frac{e^{(x_0-2\delta)\theta}}{c_\delta e^{(x_0-\delta)\theta}}=\frac{e^{\theta\delta}}{c_\delta} \to 0
+> $$
+> 
+> Como $\delta>0$ es arbitrario se sigue que $\mu_0\to x_0$ así como $\theta\to\infty$.
+
+-----
+
+El Ejemplo 2.6.4 presenta un problema que no podemos resolver $a=\varphi'(\theta)/\varphi(\theta)$ cuando $a>2$. El Teorema 2.6.5 cubre este caso, pero primero trataremos los casos en los cuales se puede resolver la ecuación.
+
+## Teorema 2.6.3.
+
+Suponga, además de (H1) y (H2) que existe un $\theta_a\in(0,\theta_+)$ tal que $a=\varphi'(\theta_a)/\varphi(\theta_a)$. Entonces, así como $n\to\infty$,
+$$
+\frac{1}{n}\log P(S_n\ge na)\to -a\theta_a + \log\varphi(\theta_a)
+$$
+*Prueba.* El hecho de que el $\limsup$ del lado izquierdo de la desigualdad sea menor o igual ($\le$) al lado derecho se sigue de (2.6.2). 
+
+-----
+
+**Detalles:**
+
+Por (2.6.2), se sigue que para cada $n$,
+$$
+\begin{array}{rl}
+P(S_n\ge na)\le & \displaystyle e^{-n\{a\theta-\kappa(\theta)\}}\\
+\log P(S_n\ge na)\le & \displaystyle -n\{a\theta-\kappa(\theta)\}\\
+\frac{1}{n}\log P(S_n\ge na)\le & \displaystyle -a\theta+\kappa(\theta)\\
+\end{array}
+$$
+así, para $m\ge 1$
+$$
+\begin{array}{rl}
+\displaystyle \limsup_{n\to\infty} \frac{1}{n}\log P(S_n\ge na) &\le \adjustlimits \inf_{m>1}\sup_{n\ge m}\frac{1}{n}\log P(S_n\ge na)\\ \vspace{4mm}
+&\le\displaystyle\sup_{n\ge m}\frac{1}{n}\log P(S_n\ge na)\\ \vspace{2mm}
+&\le\displaystyle\sup_{n\ge 1}\frac{1}{n}\log P(S_n\ge na)\\ \vspace{2mm}
+&\le -a\theta+\kappa(\theta)
+\end{array}
+$$
+
+
+-----
+
+Para probar la otra desigualdad, tome $\lambda\in(\theta_a,\theta_+)$, siendo $X_1^\lambda,X_2^\lambda,\dots$ variables aleatorias i.i.d. con distribución $F_\lambda$ y sea $S_n^\lambda=X_1^\lambda+\dots+X_n^\lambda$. Escribiendo $dF/dF_\lambda$ para la derivada de Radon-Nikodym de la medida asociada, inmediatamente de la definición de $dF/dF_\lambda=e^{-\lambda x}\varphi(\lambda)$. 
+
+-----
+
+Si denotamos a $F_\lambda^n$ y $F^n$ como las funciones de distribución $S_n^\lambda$ y $S_n$, entonces
+
+## Lemma 2.6.4.
+
+$$
+\frac{dF^n}{dF_\lambda^n}=e^{-\lambda x}\varphi(\lambda)^n
+$$
+*Prueba.* Vamos a realizar la demostración por inducción. El resultado se cumple cuando $n=1$. Para $n>1$, notamos que
+$$
+\begin{array}{rl}
+F^n&= F^{n-1} * F(z) = \displaystyle\int_{-\infty}^{\infty}dF^{n-1}(x) \int_{-\infty}^{z-x}dF(y)\\ \vspace{3mm}
+&= \displaystyle\int dF_\lambda^{n-1}(x)\int dF_\lambda(y)1_{(x+y\le z)}e^{-\lambda (x+y)}\varphi(\lambda)^n\\ \vspace{3mm}
+&= \displaystyle E\big(1_{(S_{n-1}^\lambda+X_n^\lambda\le z)}e^{-\lambda(S_{n-1}^\lambda+X_n^\lambda)}\varphi(\lambda)^n\big)\\ \vspace{3mm}
+&= \displaystyle\int_{-\infty}^{z}dF_\lambda^n(u)e^{-\lambda u}\varphi(\lambda)^n
+\end{array}
+$$
+donde en las últimas dos desigualdades hemos usado el Teorema 1.6.9 para $(S_{n-1}^\lambda,X_n^\lambda)$ y $S_n^\lambda$.$\Box$
+
+Si $\nu>a$, entonces el Lemma 2.6.4 y la monotonía implican
+$$
+\tag{*}
+P(S_n\ge na)\ge\int_{na}^{n\nu}e^{-\lambda x}\varphi(\lambda)^n dF_\lambda^n(x)\ge\varphi(\lambda)^n e^{-\lambda n\nu}(F_\lambda^n(n\nu)-F_\lambda^n(na))
+$$
+$F_\lambda$ tiene media $\varphi'(\lambda)/\varphi(\lambda)$, así que si tenemos $a<\varphi'(\lambda)/\varphi(\lambda)<\nu$, entonces por la ley débil de los grandes números tenemos
+$$
+F_\lambda^n(n\nu)-F_\lambda^n(na)\to 1, \text{ así como, }n\to\infty
+$$
+De la última conclusión y (*) se sigue que
+$$
+\liminf_{n\to\infty}\frac{1}{n}\log P(S_n>na)\ge -\lambda\nu+\log\varphi(\lambda)
+$$
+Como $\lambda>\theta_a$ y $\nu>a$ son arbitrarios, la demostración queda completa.$\Box$
+
+Para tener una idea de cómo puede ser la respuesta, consideremos los ejemplos. Para prepararnos para los cálculos, recordemos una información importante:
+$$
+\begin{array}{ll}
+\kappa(\theta)=& \log \varphi(\theta) \qquad \kappa'(\theta)=\displaystyle\frac{\varphi'(\theta)}{\varphi(\theta)} \qquad \theta_a \quad \text{resuelve} \quad  \kappa'(\theta_a)=a  \\
+\gamma(a)=& \displaystyle\lim_{n\to\infty} \frac{1}{n}\log P(S_n\ge na)=-a\theta_a+\kappa(\theta_a)
+\end{array}
+$$
+**Distribución Normal** (Ejemplo 2.6.1)
+$$
+\begin{array}{ll}
+\kappa(\theta)=&  \theta^2/2 \qquad \kappa'(\theta)=\theta \qquad \theta_a=a  \\
+\gamma(a)=& -a\theta_a+\kappa(\theta_a)=-a^2/2
+\end{array}
+$$
+
+## Ejercicio 2.6.4
+
+Chequee el último resultado observando que $S_n$ tiene una distribución normal con media $0$ y variancia $n$, y luego usando el Teorema 1.2.3.
+
+-----
+
+> Sea $\chi$ la distribución normal estándar entonces para $a>0$
+> $$
+> P(S_n\ge na)=P(\chi\ge a\sqrt{n})\sim \frac{1}{a\sqrt{n}}e^{-\frac{a^2 n}{2}}
+> $$
+> 
+> entonces $\displaystyle \frac{1}{n}\log P(S_n\ge na)\to -\frac{a^2}{2}$.
+
+-----
+
+**Distribución Exponencial** (Ejemplo 2.6.2) con $\lambda=1$
+$$
+\begin{array}{ll}
+\kappa(\theta)=&  -\log(1-\theta) \qquad \kappa'(\theta)=\displaystyle\frac{1}{1-\theta} \qquad \theta_a=1-\frac{1}{a}  \\
+\gamma(a)=& -a\theta_a+\kappa(\theta_a)=-a+1+\log a
+\end{array}
+$$
+Con esos dos ejemplos como modelo, el lector debería ser capaz de hacer
+
+## Ejercicio 2.6.5
+
+Sea $X_1,X_2,\dots$ variables aleatorias i.i.d. Poisson con media $1$, y sea $S_n=X_1+\dots+X_n$. Encuentre $\lim_{n\to\infty}(1/n)\log P(S_n\ge na)$ para $a>1$. La respuesta y otra demostración se puede encontrar en el Ejercicio 3.1.4.
+
+-----
+
+> $$
+> \varphi(\theta)=\mathbb{E}e^{\theta X}=\displaystyle \sum_{n=0}^{\infty} \frac{1}{e}\frac{e^{\theta n}}{n!}=\frac{1}{e}\sum_{n=0}^{\infty} e^{\theta n}\cdotp\frac{1}{n!}=e^{e^\theta - 1}
+> $$
+> 
+> así para $a>1$, $\kappa(\theta)=\log\varphi(\theta)=\log e^{e^\theta - 1}=e^\theta - 1$.
+> 
+> $a\theta-\kappa(\theta)=a\theta-(e^\theta-1)=a\theta-e^\theta+1$.
+>
+> $\varphi'(\theta)/\varphi(\theta)=\kappa'(\theta)=(e^\theta - 1)'=e^\theta$, y $\theta_a=\log a$. 
+>
+> Reemplazando nos da
+> $$
+> \gamma(a)=-a\theta_a + \kappa(\theta_a)=-a\log a + e^{\log a} - 1 = -a\log a + a - 1 = a(1-\log a)-1
+> $$
+> 
+> Lo cual implica que
+> $$
+> \displaystyle \lim_{n\to\infty}\frac{1}{n}\log P(S_n\ge na) = a(1-\log a)-1
+> $$
+> Por otra parte 
+> $$
+> \begin{array}{rl}
+> I(a)=&-\gamma(a)=\sup_{\theta}(a\theta-\log\varphi(\theta))=a\theta_a - \kappa(\theta_a)\\
+> =&a\log a - e^{\log a} + 1 = a\log a - a + 1 = a(\log a-1)+1
+> \end{array}
+> $$
+
+-----
+
+**Lanzamientos de monedas** (Ejemplo 2.6.3)
+En este caso lo hacemos de una forma diferente. Para encontrar $\theta$ que hace que la media de $F_\theta=a$, igualamos $F_\theta(\{1\})=e^\theta/(e^\theta+e^{-\theta})=(1+a)/2$. Dejando a $x=e^\theta$ tenemos
+$$
+2x=(1+a)(x+x^{-1})\qquad (a-1)x^2+(1+a)=0
+$$
+así $x=\sqrt{(1+a)/(1-a)}$ y $\theta_a=\log x=\{\log(1+a)-\log(1-a)\}/2$.
+$$
+\begin{array}{ll}
+\varphi(\theta_a)=& \displaystyle \frac{e^{\theta_a}+e^{-\theta_a}}{2} =\frac{e^{\theta_a}}{1+a}=\frac{1}{\sqrt{(1+a)(1-a)}}  \\ \vspace{3mm}
+\gamma(a)=& \displaystyle -a\theta_a+\kappa(\theta_a)=-\{(1+a)\log(1+a)+(1-a)\log(1-a)\}/2
+\end{array}
+$$
+En el Ejercicio 3.1.3, este resultado será demostrado a través de un cálculo directo. Dado que la fórmula de $\gamma(a)$ es un poco fea, la cota siguiente, que es más simple, es útil
+
+## Ejercicio 2.6.6.
+
+Demuestre que para lanzamientos de monedas $\varphi(\theta)\le \exp(\varphi(\theta)-1)\le \exp(\beta\theta^2)$ para $\theta\le1$ donde $\beta=\sum_{n=1}^{\infty}1/(2n)!\approx 0.586$ y use (2.6.2) para concluir que $P(S_n\ge an)\le\exp(-na^2/4\beta)$ para todo $a\in[0,1]$. Es usual simplificar mucho más utilizando $\beta\le\sum_{n=1}^{\infty}2^{-n}=1$.
+
+-----
+
+> Como $0\le x_0$, $1=e^0\le e^{x_0}$, $\frac{e^x-1}{x}\ge 1$, así tenemos que $1+x\le e^{x}$ con $x=\varphi(\theta)-1$ resulta $\varphi(\theta)\le e^{\varphi(\theta)-1}$.
+>
+> Para probar la otra desigualdad, notamos que
+> $$
+> \varphi(\theta)-1=\frac{e^\theta+e^{-\theta}}{2}-1=\cos h(\theta)=\sum_{n=1}^{\infty}\frac{\theta^{2n}}{(2n)!}\le \beta\theta^2
+> $$
+> entonces
+> $$
+> e^{\varphi(\theta)-1}\le e^{\beta\theta^2}
+> $$
+> Como $\varphi(\theta)=e^{\beta\theta^2}$, $\kappa(\theta)=\log\varphi(\theta)\le\log\exp^{\beta\theta^2}=\beta\theta^2$
+> (2.6.3) implica que $P(S_n\ge na)\le \exp{-n\{a\theta-\beta\theta^2\}}$. 
+> Tomando $\theta=a/2\beta$ para minimizar la cota superior tenemos
+> $$
+> -n\bigg(\frac{a}{2\beta}a-\beta\bigg[\frac{a}{2\beta}\bigg]^2\bigg)=-n\bigg(\frac{a^2}{2\beta}-\frac{\beta a^2}{4\beta^2}\bigg)=-n\bigg(\frac{2a^2-a^2}{4\beta}\bigg)=-n\bigg(\frac{a^2}{4\beta}\bigg)
+> $$
+> así $P(S_n\ge an)\le\exp(-na^2/4\beta)$.
+
+-----
+
+Ahora vamos a concentrarnos en los valores "problemáticos" para los cuales no podemos calcular $a=\varphi'(\theta_a)/\varphi(\theta_a)$, empezamos observando que si $x_0=\sup\{x:F(x)<1\}$ y $F$ no es un punto de masa en $x_0$ entonces $\varphi'(\theta)/\varphi(\theta)\uparrow x_0$ como $\theta\uparrow\infty$ pero $\varphi'(\theta)/\varphi(\theta)< x_0$ para todo $\theta<\infty$. Sin embargo, el resultado para $a=x_0$ es trivial:
+$$
+\frac{1}{n}\log P(S_n\ge nx_0)= \log P(X_i=x_0) \quad \forall n
+$$
+
+## Ejercicio 2.6.7.
+
+Muestre que así como $a\uparrow x_0$, $\gamma(a)\downarrow\log P(X_i=x_0)$.
+
+-----
+
+> Dado que $\gamma(a)$ es decreciente y mayor que ($\ge$) $\log P(X=x_0)$ para todo $a<x_0$, sólo se debe demostrar que $\limsup \gamma(a)\le P(P=x_0)$.
+>
+> Para hacer esto empezamos observando que los cálculos para los lamzamientos de monedas, muestran que el resultado es verdadero para distribuciones que tienen dos puntos.
+>
+> Si $\bar{X}_i=x_0-\delta$ cuando $X_i\le x_0-\delta$ y $\bar{X}_i=x_0$ cuando $x_0-\delta < X_i\le x_0$ entonces $\bar{S_n}\ge S_n$ y por tanto $\bar{\gamma}(a)\ge \gamma(a)$, pero $\bar{\gamma}(a)\downarrow P(\bar{X}_i=x_0)=P(x_0-\delta<X_i\le x_0)$. Como $\delta$ es arbitrario se sigue el resultado deseado.
+
+-----
+
+Cuando $x_0=\infty$, $\varphi'(\theta)/\varphi(\theta)\uparrow\infty$ como $\theta\uparrow\infty$, así que el único caso que queda está cubierto por
+
+## Teorema 2.6.5.
+
+Suponga $x_0=\infty$, $\theta_+<\infty$ y $\varphi'(\theta)/\varphi(\theta)$ creciente a un límite finito $a_0$ como $\theta\uparrow\theta_+$. Si $a_0\le a<\infty$
+$$
+\frac{1}{n}\log P(Sn\ge na)\to -a\theta_+ +\log\varphi(\theta_+)
+$$
+sí y sólo si $\gamma(a)$ es lineal cuando $a\ge a_0$.
+
+*Prueba.* Dado que $(\log\varphi(\theta))'=\varphi'(\theta)/\varphi(\theta)$, integrando de $0$ a $\theta_+$ nos dá que $\log(\varphi(\theta_+))<\infty$. Sea $\theta=\theta_+$ en 2.6.2 obtenemos que el $\limsup$ del lado izquierdo de la desigualdad es menor o igual ($\le$) al lado derecho de la desigualdad. Para obtener la otra dirección de la implicación vamos a utilizar la distribución transformada $F_\lambda$ con $\lambda=\theta_+$. Haciendo que $\theta\uparrow\theta_+$ y aplicando el teorema de convergencia dominada para $x\le 0$ y el teorema de convergencia monótona para $x\ge 0$, podemos ver que $F_\lambda$ tiene media $a_0$. De (*) en la prueba del Teorema 2.6.3, podemos ver que si $a_0\le a<\nu=a+3\epsilon$
+$$
+P(S_n\ge na) \ge\varphi(\lambda)^n e^{-n\lambda\nu}(F_\lambda^n(n\nu)-F_\lambda^n(na))
+$$
+y por tanto
+$$
+\frac{1}{n}\log P(S_n\ge na)\ge \log\varphi(\lambda)-\lambda\nu+\frac{1}{n}\log P(S_n^\lambda\in(na,n\nu])
+$$
+Sea $X_1^\lambda,X_2^\lambda,\dots$ variables aleatorias i.i.d. con función de distribución $F_\lambda$ y $S_n^\lambda=X_1^\lambda+\dots+X_n^\lambda$ tenemos
+$$
+\begin{array}{rl}
+P(S_n^\lambda\in(na,n\nu])\ge& P\{S_{n-1}^\lambda\in((a_0-\epsilon)n,(a_0+\epsilon)n]\} P\{X_n^\lambda\in((a-a_0+\epsilon)n,(a-a_0+2\epsilon)n]\}\\
+\ge&\displaystyle \frac{1}{2}P\{X_n^\lambda\in((a-a_0+\epsilon)n,(a-a_0+\epsilon)(n+1)]\}
+\end{array}
+$$
+para $n$ grande, por la ley débil de los grandes números. Para obtener una cota inferior del lado derecho de la desigualdad de la última ecuación, observamos que
+$$
+\limsup_{n\to\infty}\frac{1}{n}\log P(X_1^\lambda\in((a-a_0+\epsilon)n,(a-a_0+\epsilon)(n+1)])=0
+$$
+si el $\limsup$ es $<0$, podríamos tener $\mathbb{E}\exp(\eta X_1^\lambda)<\infty$ para algún $\eta>0$ por lo cual $\mathbb{E}\exp((\lambda+\eta)X_1)<\infty$, contradice la definición de $\lambda=\theta_+$. Para finalizar el argumento ahora recordemos que el Teorema 2.6.1 implica que
+$$
+\lim_{n\to\infty}\frac{1}{n}\log P(S_n\ge na)=\gamma(a)
+$$
+existe, así que nuestra cota inferior del $\limsup$ es suficientemente buena.$\Box$
+
+Adaptando/Ajustando la demostración del último resultado, Ud. puede demostrar que (H1) es necesario para la convergencia exponencial:
+
+## Ejercicio 2.6.8.
+
+Suponga $\mathbb{E}X_i=0$ y $\mathbb{E}\exp(\theta X_i)=\infty$ para todo $\theta>0$. Entonces
+$$
+\frac{1}{n}\log P(S_n\ge na)\to 0 \quad \forall a>0
+$$
+
+-----
+
+> Cláramente, $P(S_n\ge na)\ge P(S_{n-1}\ge -ne)P(X_n\ge n(a+\epsilon))$. El hecho de que $\mathbb{E}e^{\theta X}=\infty$ para todo $\theta>0$ implica que $\limsup_{n\to\infty}\frac{1}{n}\log P(S_n\ge na)=0$, y el resultado deseado se sigue como en la demostración de (2.6.6).
+
+-----
+
+## Ejercicio 2.6.9.
+
+Suponga $\mathbb{E}X_i=0$. Demuestre que si $\epsilon>0$ entonces
+$$
+\liminf_{n\to\infty} \frac{P(S_n\ge na)}{n P(X_1\ge n(a+\epsilon))}\ge 1
+$$
+
+*Pista:* Defina $F_n=\{X_i\ge n(a+\epsilon)\text{ para exactamente un }i\le n\}$.
+
+-----
+
+> Sea $p_n=P(X_i>(a+\epsilon)n)$. $\mathbb{E}|X_i|<\infty$ implica 
+> $$
+> P\Bigg(\max_{i\le n}X_i> n(a+\epsilon)\Bigg)\le np_n\to 0
+> $$
+> 
+> entonces $P(F_n)=np_n(1-p_n)^{n-1}\sim np_n.$
+>
+> Si subdividimos el evento $F_n$ e piezas (conjuntos) disjuntos de acuerdo al índice de gran valor (large value), y notando
+> $$
+> P\Bigg(|S_{n-1}|< n\epsilon \Bigg{|} \max_{i\le n} X_i\le n(a+\epsilon)\Bigg)\to 0
+> $$
+>
+> por la la ley débil de los grandes números y el hecho de que el evento condicionante tiene una probabilidad que tiende a $1$ ($\to 1$), se sigue el resultado deseado.
+
+-----
+
+
